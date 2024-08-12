@@ -1,0 +1,31 @@
+.announcement-container {
+  height: 30px;
+  background-color: maroon; 
+  color: white;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 14px; 
+  font-weight: 500; 
+  font-family: Arial, sans-serif; 
+}
+
+  
+  .announcement-container:hover {
+    background-color: rgb(85, 15,15); 
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .announcement-container {
+      font-size: 12px; 
+      padding: 5px; 
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .announcement-container {
+      font-size: 11px;
+    }
+  }
+  

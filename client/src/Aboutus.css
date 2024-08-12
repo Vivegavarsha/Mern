@@ -1,0 +1,64 @@
+.hero-container {
+    position: relative;
+    background-image: url('https://st4.depositphotos.com/20519936/27481/i/450/depositphotos_274810812-stock-photo-modern-luxury-accessories-wooden-arm.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 500px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .hero-content {
+    text-align: center;
+    color: #fff; 
+    background: rgba(0, 0, 0, 0.6); 
+    padding: 40px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .hero-content h4 {
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+  
+  .hero-content h1 {
+    font-size: 72px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .hero-content p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  
+ 
+  
+  @media screen and (max-width: 768px) {
+    .hero-container {
+      height: 400px; 
+    }
+  
+    .hero-content h1 {
+      font-size: 48px; 
+    }
+  
+    .hero-content p {
+      font-size: 16px; 
+    }
+  
+    .hero-button {
+      padding: 10px 20px; 
+    }
+  }
+  

@@ -1,0 +1,116 @@
+
+.art-container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .art-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .art-item-image {
+    width: 80px;
+    height: auto;
+  }
+  
+  .art-item-details {
+    flex: 1;
+    padding-left: 20px;
+  }
+  
+  .art-item-details h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .art-item-details p {
+    margin: 5px 0 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .art-item-quantity {
+    display: flex;
+    align-items: center;
+  }
+  
+  .art-item-quantity button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .art-item-quantity span {
+    width: 30px;
+    text-align: center;
+    font-size: 16px;
+    margin: 0 10px;
+  }
+  
+  .art-item-remove {
+    font-size: 24px;
+    color: #d9534f;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .art-summary {
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+  }
+  
+  .art-summary h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .art-summary p {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+  
+  .art-actions {
+    margin-top: 20px;
+  }
+  
+  .apply-discount,
+  .proceed {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #8b3d47;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .apply-discount {
+    background-color: #a55b68;
+  }
+  
+  .apply-discount:hover,
+  .proceed:hover {
+    opacity: 0.9;
+  }

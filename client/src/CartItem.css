@@ -1,0 +1,45 @@
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cart-item img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.item-tails {
+    flex-grow: 1;
+}
+
+.item-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.item-pric {
+    color: grey;
+}
+
+.item-tity {
+    display: flex;
+    align-items: center;
+}
+
+.item-quantity button {
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.remove-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
