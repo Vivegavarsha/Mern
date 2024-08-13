@@ -1,4 +1,4 @@
-popup {
+.poop {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@ popup {
     z-index: 1000;
   }
   
-  .popup-content {
+  .poop-content {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -21,15 +21,15 @@ popup {
     width: 90%;
   }
   
-  .popup-content h2 {
+  .poop-content h2 {
     margin-bottom: 10px;
   }
   
-  .popup-content p {
+  .poop-content p {
     margin-bottom: 20px;
   }
   
-  .popup-content input[type="email"] {
+  .poop-content input[type="email"] {
     padding: 10px;
     width: calc(100% - 22px);
     margin-bottom: 10px;
@@ -37,7 +37,7 @@ popup {
     border: 1px solid #ccc;
   }
   
-  .subscribe-btn {
+  .subs-btn {
     background: maroon;
     color: #fff;
     padding: 10px 20px;
@@ -46,7 +46,7 @@ popup {
     cursor: pointer;
   }
   
-  .close-btn {
+  .cls-butn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -56,13 +56,13 @@ popup {
     cursor: pointer;
   }
   
-  .already-subscribed {
+  .already-subs {
     display: block;
     margin-top: 10px;
     color: maroon;
     text-decoration: none;
   }
   
-  .already-subscribed:hover {
+  .already-subs:hover {
     text-decoration: underline;
   }

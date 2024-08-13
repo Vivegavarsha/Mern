@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 const SearchResults = () => {
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('query');
 
@@ -13,28 +14,54 @@ const SearchResults = () => {
   }, [query]);
 
   const fetchResults = async (searchQuery) => {
+    setLoading(true); // Start loading
     try {
-      const sampleData = [
-        { id: 1, name: 'Handcrafted Vase', description: 'A beautiful handmade vase' },
-        { id: 2, name: 'Artisan Jewelry', description: 'Unique artisan jewelry piece' },
-        { id: 3, name: 'Pottery Bowl', description: 'Crafted with care' },
-        { id: 4, name: 'Ceramic Plate', description: 'Elegant ceramic plate' }
+      const endpoints = [
+        'http://localhost:5000/decor',
+        'http://localhost:5000/handcraft',
+        'http://localhost:5000/view',
+        'http://localhost:5000/jewel',
+        'http://localhost:5000/gift'
       ];
 
-      const filteredResults = sampleData.filter(item =>
+      // Fetch all data
+      const allResults = await Promise.all(endpoints.map(endpoint => 
+        fetch(endpoint)
+          .then(res => {
+            if (!res.ok) {
+              throw new Error(`Failed to fetch from ${endpoint}`);
+            }
+            return res.json();
+          })
+      ));
+
+      console.log("Raw results from APIs:", allResults);
+
+      // Combine and filter the results
+      const mergedResults = allResults.flat(); // Combine results from all APIs
+
+      console.log("Merged results:", mergedResults);
+
+      const filteredResults = mergedResults.filter(item =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
+
+      console.log("Filtered results:", filteredResults);
 
       setResults(filteredResults);
     } catch (error) {
       console.error('Error fetching search results:', error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
   return (
     <div className="search-results">
       <h2>Search Results for: {query}</h2>
-      {results.length > 0 ? (
+      {loading ? (
+        <p>Loading...</p>
+      ) : results.length > 0 ? (
         <ul>
           {results.map(result => (
             <li key={result.id}>

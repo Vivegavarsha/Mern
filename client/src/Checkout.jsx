@@ -4,7 +4,7 @@ import OrderSummary from "./OrderSummary";
 import Payment from "./Payment";
 import "./Checkout.css";
 
-const Checkout = ({ cart }) => {
+const Checkout = () => {
   return (
     <div className="checkout-container">
       <h1 className="checkout-title">Checkout</h1>
@@ -14,7 +14,7 @@ const Checkout = ({ cart }) => {
           <Payment />
         </div>
         <div className="right-column">
-          <OrderSummary cart={cart} />
+          <OrderSummary />
         </div>
       </div>
     </div>

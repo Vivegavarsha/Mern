@@ -7,15 +7,14 @@ import Product from './Product';
 import Listing from './Listing';
 import Customer from './Customer';
 import Footer from './Footer';
-import Aboutus from './Aboutus';
-import CartModal from './CartModal';
 import Popup from './Popup';
-
+import CartModal from './CartModal';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [cart, setCart] = useState([]);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSearchChange = (event) => {
@@ -93,8 +92,8 @@ const Home = () => {
   };
 
   return (
-    
     <div>
+      <Popup /> {/* Popup is rendered here */}
       <div className="announcement-container">
         Super Deals! Free Shipping on Orders Over Rs.1500
       </div>
@@ -143,21 +142,23 @@ const Home = () => {
         </div>
         <button className="next" onClick={handleNextSlide}>&#10095;</button>
       </div>
-      <Product/>
+      
+      <Product />
       <Listing addToCart={addToCart} />
       <Customer />
-      
       <Footer />
+
       {isCartModalOpen && (
-        <CartModal 
-          cart={cart} 
-          onClose={closeCartModal} 
-          handleRemove={handleRemove} 
-          handleIncrement={handleIncrement} 
-          handleDecrement={handleDecrement} 
+        <CartModal
+          cart={cart}
+          onClose={closeCartModal}
+          handleRemove={handleRemove}
+          handleIncrement={handleIncrement}
+          handleDecrement={handleDecrement}
         />
       )}
     </div>
   );
 };
-export default Home
+
+export default Home;

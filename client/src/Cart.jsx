@@ -10,17 +10,33 @@ const Cart = () => {
     const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:5000/handcraft')
-            .then(response => response.json())
-            .then(data => {
-                const filteredData = data.filter(item => item.name && item.price && item.image);
+        const fetchCartData = async () => {
+            try {
+                const responses = await Promise.all([
+                    fetch('http://localhost:5000/gift'),
+                    fetch('http://localhost:5000/handcraft'),
+                    fetch('http://localhost:5000/jewel'),
+                    fetch('http://localhost:5000/view'),
+                    fetch('http://localhost:5000/decor')
+                ]);
+
+                const data = await Promise.all(responses.map(res => res.json()));
+
+                // Combine the results from all APIs
+                const combinedData = data.flat();
+
+                // Filter the data to ensure each item has the required fields
+                const filteredData = combinedData.filter(item => item.name && item.price && item.image);
+
                 setCart(filteredData);
                 setLoading(false);
-            })
-            .catch(error => {
+            } catch (error) {
                 setError(error);
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchCartData();
     }, []);
 
     const handleRemove = (id) => {
@@ -51,7 +67,7 @@ const Cart = () => {
             ))}
             <div className="cart-subtotal">
                 <span>Cart Subtotal</span>
-                <span>₹{cart.reduce((total, item) => total + item.price, 0)}</span>
+                <span>₹{cart.reduce((total, item) => total + item.price * item.quantity, 0).toLocaleString()}</span>
             </div>
             <div className="cart-buttons">
                 <button className="view-cart">VIEW CART</button>

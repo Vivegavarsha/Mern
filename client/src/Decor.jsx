@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Decor.css';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
@@ -50,85 +50,19 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
     );
 };
 
-const dec = [
-    {
-        id: 1,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc04936.jpg',
-        title: 'Marble Candle Stand',
-        price: 731
-    },
-    {
-        id: 2,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc02250_1.jpg',
-        title: 'Galatic Grace Table Lamp',
-        price: 1760
-    },
-    {
-        id: 3,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc08881.jpg',
-        title: 'Regal Heritage Wall Clock',
-        price: 1096
-    },
-    {
-        id: 4,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc02512_3_3.jpg',
-        title: 'Lady Candle Holder Brass',
-        price: 3696
-    },
-    {
-        id: 5,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc05008_1.jpg',
-        title: 'Komal Glass Kangan',
-        price: 796
-    },
-    {
-        id: 6,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/a01441fde58691fd2d38c1b8ed6a019d/d/s/dsc01704.jpg',
-        title: 'Handmade Desk Organizer with clock',
-        price: 1000
-    },
-    {
-        id: 7,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc08766.jpg',
-        title: 'Silver Waves Napkin Ring',
-        price: 1968
-    },
-    {
-        id: 8,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc00580_1_3.jpg',
-        title: 'Ignis Wine Glass',
-        price: 1960
-    },
-    {
-        id: 9,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc02368.jpg',
-        title: 'Artsy Multi-Colored Tray Table (Foldable)',
-        price: 2400
-    },
-    {
-        id: 10,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc02332.jpg',
-        title: 'Tea For Two (Set of 2 cups + tray)',
-        price: 1599
-    },
-    {
-        id: 11,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc02209.jpg',
-        title: 'Dusk To Dawn Vase',
-        price: 2796
-    },
-    {
-        id: 12,
-        image: 'https://media.craftmaestros.com/media/catalog/product/cache/fe834c792f2ec5867e0c548986796f72/d/s/dsc06705_1.jpg',
-        title: 'Circular Wooden platter',
-        price: 1696
-    }
-];
-
 const Decor = () => {
+    const [decorItems, setDecorItems] = useState([]);
     const [cart, setCart] = useState([]);
     const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-    const [isPopupVisible, setIsPopupVisible] = useState(false); // State to manage the visibility of the pop-up
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+    useEffect(() => {
+        // Fetch data from the API
+        fetch('http://localhost:5000/decor')
+            .then(response => response.json())
+            .then(data => setDecorItems(data))
+            .catch(error => console.error('Error fetching decor items:', error));
+    }, []);
 
     const addToCart = (item) => {
         const existingItem = cart.find(cartItem => cartItem.id === item.id);
@@ -140,10 +74,9 @@ const Decor = () => {
             setCart([...cart, { ...item, quantity: 1 }]);
         }
 
-        // Show the pop-up when an item is added to the cart
         setIsPopupVisible(true);
         setTimeout(() => {
-            setIsPopupVisible(false); // Hide the pop-up after 2 seconds
+            setIsPopupVisible(false);
         }, 2000);
     };
 
@@ -177,7 +110,7 @@ const Decor = () => {
             <Navbar cartCount={cart.reduce((total, item) => total + item.quantity, 0)} onCartIconClick={handleCartIconClick} />
             <center><h1>HOME DECOR</h1></center>
             <div className="gugu">
-                {dec.map((item) => (
+                {decorItems.map((item) => (
                     <div key={item.id} className="dec-card">
                         <img src={item.image} alt={item.title} className="dec-image" />
                         <h2 className="dec-title">{item.title}</h2>

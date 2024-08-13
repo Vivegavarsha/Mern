@@ -8,7 +8,7 @@ const Listing = ({ addToCart }) => {
 
   useEffect(() => {
    
-    fetch('http://localhost:5000/crafts/data')
+    fetch('http://localhost:5000/handcraft')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
