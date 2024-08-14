@@ -1,4 +1,4 @@
-/* Announcement Bar */
+
 .announcement-container {
   height: 30px;
   background-color: maroon;
@@ -29,7 +29,7 @@
   }
 }
 
-/* Navbar */
+
 .navbar {
   background-color: #fff;
   border-bottom: 1px solid #ccc;
@@ -73,6 +73,17 @@
   cursor: pointer;
 }
 
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.user-name {
+  font-size: 14px;
+  color: #000;
+}
+
 .navbar-cart {
   position: relative;
 }
@@ -98,7 +109,8 @@
   color: maroon;
 }
 
-/* Slider */
+
+
 .slider {
   position: relative;
   width: 100%;
@@ -113,7 +125,7 @@
   display: flex;
   width: 100%;
   height: 100%;
-  animation: slideAnimation 20s infinite;
+  animation: slideAnimation 2s infinite;
 }
 
 .slide {
@@ -127,11 +139,14 @@
 }
 
 .slide-content {
-  background: rgba(0, 0, 0, 0.5);
+  background: transparent;
   color: white;
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
-  max-width: 90%; /* Ensure the content doesn't overflow */
+  max-width: 90%; 
+  font-size:x-large;
+  font-weight: 100;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 @keyframes slideAnimation {
@@ -178,12 +193,11 @@
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .navbar-menu {
     flex-direction: column;
     align-items: center;
-    display: none; /* Hide menu items on small screens */
+    display: none; 
   }
 
   .navbar-icons {
@@ -224,4 +238,37 @@
   .navbar-logo {
     font-size: 18px;
   }
+}
+
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 150px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.user-dropdown p {
+  margin: 10px;
+  font-size: 14px;
+  color: black;
+}
+
+.user-dropdown button {
+  width: 100%;
+  padding: 8px 10px;
+  background-color: maroon;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.user-dropdown button:hover {
+  background-color: darkred;
 }

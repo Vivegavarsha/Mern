@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
 
@@ -59,20 +60,36 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      
-      localStorage.setItem('user', JSON.stringify({ email: formData.email, password: formData.password }));
-      alert("Sign-up successful");
-      nav('/Signin');
+      try {
+        const response = await axios.post("http://localhost:5000/login/user", {
+          name: formData.name,
+          mail: formData.email,
+          password: formData.password,
+        });
+        nav("/Signin");
+  
+        console.log(response.data); // Log the API response to inspect it
+  
+        // if (response.data.success) {
+        //   alert("Sign-up successful");
+        // } else {
+        //   alert("Sign-up failed. Please try again.");
+        // }
+      } catch (error) {
+        console.error("Error during sign-up:", error);
+        alert("Error during sign-up. Please try again.");
+      }
     } else {
       alert("Please fix the errors and try again.");
     }
   };
+  
 
   return (
-    <div className="god">
+    <div className="halla">
     <div className="sign-up-page">
       <div className="sign-up-container">
         <div className="sign-up-header">
@@ -80,7 +97,7 @@ const Signup = () => {
           <p>Join us and start selling or buying handmade goods</p>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="arm-group">
+          <div className="form-group">
             <label htmlFor="name">Name:</label>
             <input
               type="text"
@@ -92,7 +109,7 @@ const Signup = () => {
             />
             {errors.name && <p className="error">{errors.name}</p>}
           </div>
-          <div className="arm-group">
+          <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
@@ -104,7 +121,7 @@ const Signup = () => {
             />
             {errors.email && <p className="error">{errors.email}</p>}
           </div>
-          <div className="arm-group">
+          <div className="form-group">
             <label htmlFor="password">Password:</label>
             <input
               type="password"
@@ -116,7 +133,7 @@ const Signup = () => {
             />
             {errors.password && <p className="error">{errors.password}</p>}
           </div>
-          <div className="arm-group">
+          <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password:</label>
             <input
               type="password"

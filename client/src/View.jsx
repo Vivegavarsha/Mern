@@ -13,7 +13,19 @@ const Announcement = () => {
   );
 };
 
-const Navbar = ({ cartCount, onCartIconClick }) => {
+const Navbar = ({ cartCount, onCartIconClick, onSearchChange }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    onSearchChange(event.target.value); // Pass search query to parent
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    // Optionally handle search submission here
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -38,7 +50,15 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
           </li>
         </ul>
         <div className="navbar-icons">
-          <FaSearch className="navbar-icon" />
+          <form className="navbar-search" onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          </form>
           <FaUser className="navbar-icon" />
           <div className="navbar-cart" onClick={onCartIconClick}>
             <FaShoppingCart className="navbar-icon" />
@@ -51,16 +71,20 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
 };
 
 const View = () => {
-  const [items, setItems] = useState([]);  // Items will be fetched from API
+  const [items, setItems] = useState([]);
   const [cart, setCart] = useState([]);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
     // Fetch data from API when the component mounts
     fetch('http://localhost:5000/view')
       .then(response => response.json())
-      .then(data => setItems(data))
+      .then(data => {
+        setItems(data);
+        setFilteredItems(data); // Initialize filteredItems with fetched data
+      })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
@@ -105,13 +129,27 @@ const View = () => {
     ));
   };
 
+  const handleSearchChange = (query) => {
+    if (query.trim() === '') {
+      setFilteredItems(items);
+    } else {
+      setFilteredItems(items.filter(item =>
+        item.title.toLowerCase().includes(query.toLowerCase())
+      ));
+    }
+  };
+
   return (
     <div>
       <Announcement />
-      <Navbar cartCount={cart.reduce((total, item) => total + item.quantity, 0)} onCartIconClick={handleCartIconClick} />
+      <Navbar 
+        cartCount={cart.reduce((total, item) => total + item.quantity, 0)} 
+        onCartIconClick={handleCartIconClick} 
+        onSearchChange={handleSearchChange} 
+      />
       <center><h1>CRAFTS</h1></center>
       <div className="aiyoo">
-        {items.map(item => (
+        {filteredItems.map(item => (
           <div key={item._id} className="item-card">
             <img src={item.image} alt={item.title} className="item-image" />
             <h2 className="item-title">{item.title}</h2>

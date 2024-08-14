@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Gift.css';
 import { Link } from 'react-router-dom';
-import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import Footer from './Footer';
 import CartModal from './CartModal';
 
@@ -13,11 +13,20 @@ const Announcement = () => {
     );
 };
 
-const Navbar = ({ cartCount, onCartIconClick }) => {
+const Navbar = ({ cartCount, onCartIconClick, onSearchChange }) => {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+        onSearchChange(event.target.value); // Pass search query to parent
+    };
+
     return (
         <nav className="navbar">
             <div className="navbar-container">
-                <div className="navbar-logo"><Link className="linkk" to="/Home">ARTISAN ALLEY</Link></div>
+                <div className="navbar-logo">
+                    <Link className="linkk" to="/Home">ARTISAN ALLEY</Link>
+                </div>
                 <ul className="navbar-menu">
                     <li className="navbar-item">
                         <Link className="linkk" to="/Read">ABOUT US</Link>
@@ -36,7 +45,15 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
                     </li>
                 </ul>
                 <div className="navbar-icons">
-                    <FaSearch className="navbar-icon" />
+                    <form className="navbar-search" onSubmit={(e) => e.preventDefault()}>
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search..."
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                        />
+                    </form>
                     <FaUser className="navbar-icon" />
                     <div className="navbar-cart" onClick={onCartIconClick}>
                         <FaShoppingCart className="navbar-icon" />
@@ -49,16 +66,19 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
 };
 
 const Gift = () => {
-    const [gifts, setGifts] = useState([]); // Initialize state for gifts data
-    const [cart, setCart] = useState([]); // Initialize cart state
+    const [gifts, setGifts] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
+    const [cart, setCart] = useState([]);
     const [isCartModalOpen, setIsCartModalOpen] = useState(false);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
 
     useEffect(() => {
-        // Fetch data from the API when the component mounts
         fetch('http://localhost:5000/gift')
             .then((response) => response.json())
-            .then((data) => setGifts(data))
+            .then((data) => {
+                setGifts(data);
+                setFilteredItems(data); // Initialize filteredItems with fetched data
+            })
             .catch((error) => console.error('Error fetching data:', error));
     }, []);
 
@@ -72,7 +92,6 @@ const Gift = () => {
             setCart([...cart, { ...item, quantity: 1 }]);
         }
 
-        // Show popup for 2 seconds
         setIsPopupVisible(true);
         setTimeout(() => {
             setIsPopupVisible(false);
@@ -103,14 +122,28 @@ const Gift = () => {
         ));
     };
 
+    const handleSearchChange = (query) => {
+        if (query.trim() === '') {
+            setFilteredItems(gifts);
+        } else {
+            setFilteredItems(gifts.filter(item =>
+                item.title.toLowerCase().includes(query.toLowerCase())
+            ));
+        }
+    };
+
     return (
         <div>
             <Announcement />
-            <Navbar cartCount={cart.reduce((total, item) => total + item.quantity, 0)} onCartIconClick={handleCartIconClick} />
+            <Navbar 
+                cartCount={cart.reduce((total, item) => total + item.quantity, 0)} 
+                onCartIconClick={handleCartIconClick} 
+                onSearchChange={handleSearchChange} 
+            />
             <center><h1>GIFTS</h1></center>
 
             <div className="hari">
-                {gifts.map(item => (
+                {filteredItems.map(item => (
                     <div key={item.id} className="gef-card">
                         <img src={item.image} alt={item.title} className="gef-image" />
                         <h2 className="gef-title">{item.title}</h2>

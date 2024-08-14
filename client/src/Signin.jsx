@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import "./Signin.css"; 
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Signin.css";
 
-const Signin = () => {
+const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
-  const [passwordLengthValid, setPasswordLengthValid] = useState(true);
-
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize the navigate hook
 
   const validateForm = () => {
     let valid = true;
@@ -38,7 +37,6 @@ const Signin = () => {
     const value = e.target.value;
     setEmail(value);
 
-
     if (/\S+@\S+\.\S+/.test(value)) {
       setErrors((prevErrors) => ({ ...prevErrors, email: "" }));
     } else if (!value) {
@@ -58,10 +56,6 @@ const Signin = () => {
     const value = e.target.value;
     setPassword(value);
 
-    // Check password length
-    setPasswordLengthValid(value.length >= 8);
-
-    // Clear password error message if length is valid
     if (value.length >= 8) {
       setErrors((prevErrors) => ({ ...prevErrors, password: "" }));
     } else if (!value) {
@@ -77,68 +71,70 @@ const Signin = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-     
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-
-      if (storedUser && storedUser.email === email && storedUser.password === password) {
-        alert("Sign-in successful");
-        navigate("/Home");
-       
-      } else {
-        alert("Invalid email or password");
+      try {
+        const response = await axios.get('http://localhost:5000/login/user');
+        const fetchedData = response.data; 
+        const matchingUser = fetchedData.find(user => user.mail === email && user.password === password );
+        if (matchingUser) {
+          alert("Sign in successful!");
+          navigate("/Home"); // Redirect to Home page after successful sign-in
+        }
+      } catch (error) {
+        console.error("Error during sign-in:", error);
+        alert("Error during sign-in. Please try again.");
       }
-    } else if (password.length < 8) {
-      alert("Please ensure your password is at least 8 characters long and also valid email ID is required ");
+    } else {
+      alert("Please ensure your password is at least 8 characters long and a valid email ID is required.");
     }
   };
 
   return (
-    <div className="but">
-      <div className="sign-in-page">
-        <div className="sign-in-container">
-          <div className="sign-in-header">
-            <h1>Welcome Back</h1>
-            <p>Sign in to discover beautiful handmade products!</p>
-          </div>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={handleEmailChange}
-                placeholder="Enter your email"
-              />
-              {errors.email && <p className="error">{errors.email}</p>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={handlePasswordChange}
-                placeholder="Enter your password"
-              />
-              {errors.password && <p className="error">{errors.password}</p>}
-            </div>
-            <div className="button-container">
-              <button type="submit" className="sign-in-button">
-                Sign In
-              </button>
-              <button type="button" className="forgot-password-button">
-                Forgot Password?
-              </button>
-            </div>
-          </form>
+    <div className="die">
+    <div className="sign-in-page">
+      <div className="sign-in-container">
+        <div className="sign-in-header">
+          <h1>Welcome Back</h1>
+          <p>Sign in to discover beautiful handmade products!</p>
         </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="Enter your email"
+            />
+            {errors.email && <p className="error">{errors.email}</p>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="Enter your password"
+            />
+            {errors.password && <p className="error">{errors.password}</p>}
+          </div>
+          <div className="button-container">
+            <button type="submit" className="sign-in-button">
+              Sign In
+            </button>
+            <button type="button" className="forgot-password-button">
+              Forgot Password?
+            </button>
+          </div>
+        </form>
       </div>
+    </div>
     </div>
   );
 };
 
-export default Signin;
+export default SignInPage;

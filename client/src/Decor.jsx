@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Decor.css';
 import { Link } from 'react-router-dom';
-import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import Footer from './Footer';
 import CartModal from './CartModal';
 
@@ -13,7 +13,14 @@ const Announcement = () => {
     );
 };
 
-const Navbar = ({ cartCount, onCartIconClick }) => {
+const Navbar = ({ cartCount, onCartIconClick, onSearchChange }) => {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+        onSearchChange(event.target.value); // Pass search query to parent
+    };
+
     return (
         <nav className="navbar">
             <div className="navbar-container">
@@ -38,7 +45,15 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
                     </li>
                 </ul>
                 <div className="navbar-icons">
-                    <FaSearch className="navbar-icon" />
+                    <form className="navbar-search" onSubmit={(e) => e.preventDefault()}>
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search..."
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                        />
+                    </form>
                     <FaUser className="navbar-icon" />
                     <div className="navbar-cart" onClick={onCartIconClick}>
                         <FaShoppingCart className="navbar-icon" />
@@ -52,6 +67,7 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
 
 const Decor = () => {
     const [decorItems, setDecorItems] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
     const [cart, setCart] = useState([]);
     const [isCartModalOpen, setIsCartModalOpen] = useState(false);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -60,7 +76,10 @@ const Decor = () => {
         // Fetch data from the API
         fetch('http://localhost:5000/decor')
             .then(response => response.json())
-            .then(data => setDecorItems(data))
+            .then(data => {
+                setDecorItems(data);
+                setFilteredItems(data); // Initialize filteredItems with fetched data
+            })
             .catch(error => console.error('Error fetching decor items:', error));
     }, []);
 
@@ -104,13 +123,27 @@ const Decor = () => {
         ));
     };
 
+    const handleSearchChange = (query) => {
+        if (query.trim() === '') {
+            setFilteredItems(decorItems);
+        } else {
+            setFilteredItems(decorItems.filter(item =>
+                item.title.toLowerCase().includes(query.toLowerCase())
+            ));
+        }
+    };
+
     return (
         <div className='gaga'>
             <Announcement />
-            <Navbar cartCount={cart.reduce((total, item) => total + item.quantity, 0)} onCartIconClick={handleCartIconClick} />
+            <Navbar 
+                cartCount={cart.reduce((total, item) => total + item.quantity, 0)} 
+                onCartIconClick={handleCartIconClick} 
+                onSearchChange={handleSearchChange} 
+            />
             <center><h1>HOME DECOR</h1></center>
             <div className="gugu">
-                {decorItems.map((item) => (
+                {filteredItems.map((item) => (
                     <div key={item.id} className="dec-card">
                         <img src={item.image} alt={item.title} className="dec-image" />
                         <h2 className="dec-title">{item.title}</h2>

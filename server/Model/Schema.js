@@ -5,7 +5,7 @@ const schema = new Schema({
     id: String,
     title: String,
     price: Number,
-    imageUrl: String,
+    image: String,
     isNew: Boolean
 });
 

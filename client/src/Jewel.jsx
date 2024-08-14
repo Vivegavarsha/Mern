@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Jewel.css';
 import { Link } from 'react-router-dom';
-import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import Footer from './Footer';
 import CartModal from './CartModal';
 
@@ -13,7 +13,14 @@ const Announcement = () => {
     );
 };
 
-const Navbar = ({ cartCount, onCartIconClick }) => {
+const Navbar = ({ cartCount, onCartIconClick, onSearchChange }) => {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+        onSearchChange(event.target.value); // Pass search query to parent
+    };
+
     return (
         <nav className="navbar">
             <div className="navbar-container">
@@ -38,7 +45,17 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
                     </li>
                 </ul>
                 <div className="navbar-icons">
-                    <FaSearch className="navbar-icon" />
+                    <form className="navbar-search" onSubmit={(e) => e.preventDefault()}>
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search..."
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                        />
+                        {/* Space bar instead of icon */}
+                        <div className="search-space" />
+                    </form>
                     <FaUser className="navbar-icon" />
                     <div className="navbar-cart" onClick={onCartIconClick}>
                         <FaShoppingCart className="navbar-icon" />
@@ -51,14 +68,14 @@ const Navbar = ({ cartCount, onCartIconClick }) => {
 };
 
 const Jewel = () => {
-    const [jew, setJew] = useState([]); // State to store the API data
+    const [jew, setJew] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
     const [cart, setCart] = useState([]);
     const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-    const [isPopupVisible, setIsPopupVisible] = useState(false); // State to manage the visibility of the pop-up
-    const [loading, setLoading] = useState(true); // State for loading
-    const [error, setError] = useState(null); // State for error
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    // Fetch data from the API
     useEffect(() => {
         fetch('http://localhost:5000/jewel')
             .then((response) => {
@@ -69,6 +86,7 @@ const Jewel = () => {
             })
             .then((data) => {
                 setJew(data);
+                setFilteredItems(data); // Initialize filteredItems with fetched data
                 setLoading(false);
             })
             .catch((error) => {
@@ -87,10 +105,9 @@ const Jewel = () => {
             setCart([...cart, { ...item, quantity: 1 }]);
         }
 
-        // Show the pop-up when an item is added to the cart
         setIsPopupVisible(true);
         setTimeout(() => {
-            setIsPopupVisible(false); // Hide the pop-up after 2 seconds
+            setIsPopupVisible(false);
         }, 2000);
     };
 
@@ -118,6 +135,16 @@ const Jewel = () => {
         ));
     };
 
+    const handleSearchChange = (query) => {
+        if (query.trim() === '') {
+            setFilteredItems(jew);
+        } else {
+            setFilteredItems(jew.filter(item =>
+                item.title.toLowerCase().includes(query.toLowerCase())
+            ));
+        }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -129,10 +156,14 @@ const Jewel = () => {
     return (
         <div>
             <Announcement />
-            <Navbar cartCount={cart.reduce((total, item) => total + item.quantity, 0)} onCartIconClick={handleCartIconClick} />
+            <Navbar 
+                cartCount={cart.reduce((total, item) => total + item.quantity, 0)} 
+                onCartIconClick={handleCartIconClick} 
+                onSearchChange={handleSearchChange} 
+            />
             <center><h1>JEWELLERY</h1></center>
             <div className="gow">
-                {jew.map(item => (
+                {filteredItems.map(item => (
                     <div key={item._id} className="jew-card">
                         <img src={item.image} alt={item.title} className="jew-image" />
                         <h2 className="jew-title">{item.title}</h2>

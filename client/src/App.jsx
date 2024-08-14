@@ -8,9 +8,9 @@ import View from "./View";
 import Decor from "./Decor";
 import Jewel from "./Jewel";
 import Gift from "./Gift";
-import SearchResults from "./SearchResults";
 import Popup from "./Popup";
 import Checkout from "./Checkout";
+import RazorpayComponent from "./RazorpayComponent";
 
 
 
@@ -27,8 +27,9 @@ export default function App() {
         <Route path="/Decor" element={<Decor/>}></Route>
         <Route path="/Jewel" element={<Jewel/>}></Route>
         <Route path="/Gift" element={<Gift/>}></Route>
-        <Route path = "/Search" element = {<SearchResults/>}></Route>
+        
         <Route path = "/Checkout" element = {<Checkout/>}></Route>
+        <Route path = "/Pay" element = {<RazorpayComponent/>}></Route>
 
       </Routes>
     </BrowserRouter>

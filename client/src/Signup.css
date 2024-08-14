@@ -1,36 +1,37 @@
-.god{
+/* Full height and center content */
+.halla {
   width: 100%;
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: url("C:\Users\Varsha\Desktop\Mern\client\src\assets\Handmade_goods_sharpener_waste.jpg") no-repeat
+  background: url("./Images/Handmade_goods_sharpener_waste.jpg") no-repeat
     center center fixed;
-  background-size: cover; 
+  background-size: cover; /* Ensure the image covers the entire background */
 }
 
-
+/* Main container styling */
 .sign-up-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
+  height: 100vh; /* Full viewport height */
 }
 
-
+/* Sign-up container styling */
 .sign-up-container {
-  border-radius: 12px; 
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); 
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Slightly deeper shadow for better depth */
   width: 100%;
-  max-width: 420px; 
+  max-width: 420px; /* Responsive max-width */
   padding: 30px;
   position: relative;
-  overflow: hidden; 
-  animation: scaleUp 0.5s ease-out; 
+  overflow: hidden; /* Ensure shadow does not overflow */
+  animation: scaleUp 0.5s ease-out; /* Scaling animation */
   margin-left: 65%;
   background-color: antiquewhite;
   opacity: 85%;
 }
 
-
+/* Header styling */
 .sign-up-header {
   text-align: center;
   margin-bottom: 30px;
@@ -41,12 +42,12 @@
   color: #1e1d1d;
   margin-bottom: 10px;
   font-weight: 700;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); 
-  transition: color 0.3s ease; 
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
+  transition: color 0.3s ease; /* Smooth color transition */
 }
 
 .sign-up-header h1:hover {
-  color: #007bff; 
+  color: #007bff; /* Highlight color on hover */
 }
 
 .sign-up-header p {
@@ -55,7 +56,8 @@
   margin: 0;
 }
 
-.arm-group {
+/* Form group styling */
+.form-group {
   margin-bottom: 25px;
   position: relative;
 }
@@ -65,14 +67,14 @@ label {
   font-weight: 600;
   margin-bottom: 8px;
   color: #090909;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease; /* Smooth color transition */
 }
 
 label:hover {
-  color: #007bff; 
+  color: #007bff; /* Highlight color on hover */
 }
 
-
+/* Input fields styling */
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -92,15 +94,17 @@ input[type="email"]:focus,
 input[type="password"]:focus {
   border-color: #007bff;
   outline: none;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); 
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); /* Focus shadow effect */
 }
 
+/* Error message styling */
 .error {
   color: #d9534f;
   font-size: 14px;
   margin-top: 5px;
 }
 
+/* Button container styling */
 .button-container {
   display: flex;
   justify-content: center;
@@ -108,8 +112,9 @@ input[type="password"]:focus {
   margin-top: 20px;
 }
 
+/* Sign Up button styling */
 .sign-up-button {
-  flex: 1; 
+  flex: 1; /* Allow button to grow */
   padding: 12px;
   font-size: 16px;
   font-weight: 600;
@@ -118,13 +123,13 @@ input[type="password"]:focus {
     135deg,
     #007bff,
     #0056b3
-  ); 
+  ); /* Gradient background */
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  overflow: hidden; 
+  overflow: hidden; /* Ensure shadows and effects are contained */
 }
 
 .sign-up-button::before {
@@ -149,12 +154,12 @@ input[type="password"]:focus {
     135deg,
     #0056b3,
     #003d7a
-  ); 
-  transform: translateY(-2px); 
-  box-shadow: 0 8px 16px rgba(0, 123, 255, 0.3); 
+  ); /* Darker gradient on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 8px 16px rgba(0, 123, 255, 0.3); /* Elevated shadow */
 }
 
-
+/* Keyframes for animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -175,6 +180,7 @@ input[type="password"]:focus {
   }
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
   .sign-up-container {
     width: 90%;
